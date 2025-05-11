@@ -1,2 +1,2 @@
 #!/bin/bash
-../../../../ThirdParty/CMakeProjectFramework/PlatformSpecificScript/Linux/Install.sh
+../../../ThirdParty/CMakeProjectFramework/PlatformSpecificScript/Linux/Install.sh

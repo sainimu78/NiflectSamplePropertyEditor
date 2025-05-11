@@ -62,6 +62,40 @@ static CSharedPropertyNode BuildPropertyFromRwNode(CPropertyEditContext* editCtx
 	BuildPropertyFromRwNodeRecurs(editCtx, ownerType, rw, "", NULL, prop.Get());
 	return prop;
 }
+static bool SavePropertyToRwNodeRecurs(CPropertyNode* prop, CRwNode* rw)
+{
+	if (prop->IsItem())
+	{
+		prop->LoadFromCurrent(rw);
+	}
+	else
+	{
+		if (prop->IsContainer())
+		{
+			auto rwArray = rw->ToArray();
+			for (auto& it : prop->m_vecNode)
+			{
+				auto rwElem = CreateRwNode();
+				if (SavePropertyToRwNodeRecurs(it.Get(), rwElem.Get()))
+					rwArray->AddItem(rwElem);
+			}
+		}
+		else
+		{
+			for (auto& it : prop->m_vecNode)
+			{
+				auto rwField = CreateRwNode();
+				if (SavePropertyToRwNodeRecurs(it.Get(), rwField.Get()))
+					AddExistingRwNode(rw, it->m_name, rwField);
+			}
+		}
+	}
+	return true;
+}
+static bool SavePropertyToRwNode(CPropertyNode* prop, CRwNode* rw)
+{
+	return SavePropertyToRwNodeRecurs(prop, rw);
+}
 
 QExampleWindow::QExampleWindow(QWidget* parentWidget)
 	: inherited(parentWidget)
@@ -116,7 +150,7 @@ QExampleWindow::QExampleWindow(QWidget* parentWidget)
 			CRwNode rw;
 			{
 				Niflect::BuildNamePathForTypeHasGetNameGetParent(prop, vecPath);
-				prop->SaveForInstanceNode(&rw);
+				SavePropertyToRwNode(prop, &rw);
 			}
 			{
 				auto runtimeInstNode = Niflect::VisitInstanceNodeByNamePath(&m_runtimeInstRoot, vecPath);

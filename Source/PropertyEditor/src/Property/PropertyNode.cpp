@@ -25,36 +25,6 @@ void CPropertyNode::Clear()
 		m_editCtx->MarkDeleted(it);
 	m_vecNode.clear();
 }
-bool CPropertyNode::SaveForInstanceNode(CRwNode* rw) const
-{
-	if (this->IsItem())
-	{
-		this->LoadFromCurrent(rw);
-	}
-	else
-	{
-		if (m_elemType != NULL)
-		{
-			auto rwArray = rw->ToArray();
-			for (auto& it : m_vecNode)
-			{
-				auto rwElem = CreateRwNode();
-				if (it->SaveForInstanceNode(rwElem.Get()))
-					rwArray->AddItem(rwElem);
-			}
-		}
-		else
-		{
-			for (auto& it : m_vecNode)
-			{
-				auto rwField = CreateRwNode();
-				if (it->SaveForInstanceNode(rwField.Get()))
-					AddExistingRwNode(rw, it->m_name, rwField);
-			}
-		}
-	}
-	return true;
-}
 
 CBoolProperty::CBoolProperty()
 	: m_value(false)

@@ -59,6 +59,10 @@ public:
 	{
 		return m_name;
 	}
+	bool IsContainer() const
+	{
+		return m_elemType != NULL;
+	}
 	CPropertyNode* GetParent() const
 	{
 		return m_parent;
@@ -129,7 +133,6 @@ public:
 	{
 		return this->LoadFromUiImpl(rw);
 	}
-	bool SaveForInstanceNode(CRwNode* rw) const;
 
 protected:
 	virtual bool SaveToUiImpl(const CRwNode* rw) const { return false; }

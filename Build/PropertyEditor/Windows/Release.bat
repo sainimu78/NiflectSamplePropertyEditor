@@ -1,3 +1,3 @@
 @echo off
-@set ProjectDirPath=..\..\..\..\..\Project\Sample\PropertyEditor
-@..\..\..\..\ThirdParty\CMakeProjectFramework\PlatformSpecificScript\Windows\Release.bat
+@set ProjectDirPath=..\..\..\..\Project\PropertyEditor
+@..\..\..\ThirdParty\CMakeProjectFramework\PlatformSpecificScript\Windows\Release.bat

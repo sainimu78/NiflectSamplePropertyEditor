@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 3.10.0)
 
-include(../InitSampleRootPath.cmake)
+include(../InitRootPath.cmake)
 
 set(c_ProjectName PropertyEditor)
-
-set(c_SampleRootSourceDirPath ${c_RootSourceDirPath}/Sample/${c_ProjectName})
 
 include(${c_RootCMakeProjectFrameworkDirPath}/ProjectBegin.cmake)
 project(${c_ProjectName})
@@ -13,7 +11,7 @@ include(${c_RootCMakeProjectFrameworkDirPath}/ProjectEnd.cmake)
 
 set(ModuleName ${c_ProjectName})
 
-set(ModuleRootPath ${c_SampleRootSourceDirPath})
+set(ModuleRootPath ${c_RootSourceDirPath}/${ModuleName})
 set(ModuleSourcePath ${ModuleRootPath}/src)
 set(ModuleIncludePath ${ModuleRootPath}/include)
 

@@ -1,2 +1,2 @@
 @echo off
-@..\..\..\..\ThirdParty\CMakeProjectFramework\PlatformSpecificScript\Windows\Clean.bat
+@..\..\..\ThirdParty\CMakeProjectFramework\PlatformSpecificScript\Windows\Clean.bat

@@ -208,3 +208,58 @@ void CArrayPropertyAddRemoveDeleteInsert::CreateChildEditWidget(CChildEditWidget
 		});
 	ctx.m_inRow->m_toolLayout->addWidget(eed);
 }
+
+QLineEditGroup::QLineEditGroup(QWidget* parentWidget)
+	: inherited(parentWidget)
+	, m_edtEntry{}
+{
+	auto mainLayout = CreateLayoutNoMargin<QHBoxLayout>(this);
+	for (uint32 idx = 0; idx < 3; ++idx)
+	{
+		auto edt = new QLineEdit(this);
+		mainLayout->addWidget(edt);
+		m_edtEntry[idx] = edt;
+	}
+}
+
+bool CVector3PropertyLineEditGroup::SaveToUiImpl(const CRwNode* rw) const
+{
+	auto edt = this->GetEditWidget();
+	CVector3 tmp;
+	LoadCVector3FromRwNode(rw, tmp);
+	auto vec = &tmp.m_x;
+	for (uint32 idx = 0; idx < edt->GetEntriesCount(); ++idx)
+		InvokeNoSignal(edt->GetEntry(idx), &QLineEdit::setText, QString("%1").arg(vec[idx]));
+	return true;
+}
+bool CVector3PropertyLineEditGroup::LoadFromUiImpl(CRwNode* rw) const
+{
+	auto edt = this->GetEditWidget();
+	CVector3 tmp;
+	auto vec = &tmp.m_x;
+	for (uint32 idx = 0; idx < edt->GetEntriesCount(); ++idx)
+		vec[idx] = edt->GetEntry(idx)->text().toFloat();
+	SaveCVector3ToRwNode(tmp, rw);
+	return true;
+}
+void CVector3PropertyLineEditGroup::InitWithUiNode()
+{
+	auto edt = this->GetEditWidget();
+	for (uint32 idx = 0; idx < edt->GetEntriesCount(); ++idx)
+	{
+		QObject::connect(edt->GetEntry(idx), &QLineEdit::textChanged, [this]()
+			{
+				m_uiNode->m_tree->MarkChangeFromUi(this);
+			});
+	}
+}
+void CVector3PropertyLineEditGroup::CreateEditWidget(CEditWidgetCreationContext& ctx)
+{
+	auto edt = new QLineEditGroup(ctx.m_inRow);
+	ctx.m_outEditWidget = edt;
+}
+QLineEditGroup* CVector3PropertyLineEditGroup::GetEditWidget() const
+{
+	ASSERT(dynamic_cast<QLineEditGroup*>(m_uiNode->m_editWidget) != NULL);
+	return static_cast<QLineEditGroup*>(m_uiNode->m_editWidget);
+}

@@ -2,6 +2,7 @@
 #include "ExampleNata.h"
 #include "Niflect/Default/DefaultMacroTag.h"
 #include "Niflect/Base/Array.h"
+#include "ExampleStructure.h"
 
 NIF_T(CExampleNata())
 class CExample0
@@ -14,6 +15,8 @@ public:
 	float m_value;
 	NIF_F()
 	Niflect::TArray<float> m_float_array;
+	NIF_F()
+	CVector3 m_vector3;
 };
 
 NIF_T(CExampleNata())

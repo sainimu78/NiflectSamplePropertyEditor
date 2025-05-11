@@ -72,6 +72,7 @@ QExampleWindow::QExampleWindow(QWidget* parentWidget)
 	g_mapAcsToPropType.insert({ Niflect::StaticGetType<CFloatAccessor>(), Niflect::StaticGetType<CFloatPropertyLineEdit>() });
 	g_mapAcsToPropType.insert({ Niflect::StaticGetType<CCompoundAccessor>(), Niflect::StaticGetType<CCompoundPropertyCollapser>() });
 	g_mapAcsToPropType.insert({ Niflect::StaticGetType<CArrayAccessor>(), Niflect::StaticGetType<CArrayPropertyAddRemoveDeleteInsert>() });
+	g_mapAcsToPropType.insert({ Niflect::StaticGetType<CVector3Accessor>(), Niflect::StaticGetType<CVector3PropertyLineEditGroup>() });
 
 
 	auto wdgCentral = new QWidget(this);
@@ -85,7 +86,7 @@ QExampleWindow::QExampleWindow(QWidget* parentWidget)
 			CRwNode rwInitialRuntimeData;
 			{
 				m_runtimeDummy = Niflect::NiflectTypeMakeShared<void*>(type);
-				type->SaveInstanceToRwNode(m_runtimeDummy.Get(),  &rwInitialRuntimeData);
+				type->SaveInstanceToRwNode(m_runtimeDummy.Get(), &rwInitialRuntimeData);
 				m_runtimeInstRoot.Clear();
 				m_runtimeInstRoot.InitAndBuild(type, m_runtimeDummy.Get());
 			}

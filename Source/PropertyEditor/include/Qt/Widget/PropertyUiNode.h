@@ -178,3 +178,33 @@ public:
 	virtual void CreateEditWidget(CEditWidgetCreationContext& ctx) override;
 	virtual void CreateChildEditWidget(CChildEditWidgetCreationContext& ctx, uint32 idx) override;
 };
+
+class QLineEditGroup : public QWidget
+{
+	typedef QWidget inherited;
+public:
+	QLineEditGroup(QWidget* parentWidget);
+
+public:
+	uint32 GetEntriesCount() const { return 3; }
+	QLineEdit* GetEntry(uint32 idx) const { return m_edtEntry[idx]; }
+
+private:
+	QLineEdit* m_edtEntry[3];
+};
+
+NIF_T()
+class CVector3PropertyLineEditGroup : public CVector3Property
+{
+	typedef CVector3Property inherited;
+protected:
+	virtual bool SaveToUiImpl(const CRwNode* rw) const override;
+	virtual bool LoadFromUiImpl(CRwNode* rw) const override;
+
+public:
+	virtual void InitWithUiNode() override;
+	virtual void CreateEditWidget(CEditWidgetCreationContext& ctx) override;
+
+private:
+	QLineEditGroup* GetEditWidget() const;
+};

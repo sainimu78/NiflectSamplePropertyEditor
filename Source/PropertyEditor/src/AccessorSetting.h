@@ -10,3 +10,4 @@ NIFAS_B() TSetting<CCompoundAccessor>;
 NIFAS_A() TSetting<CFloatAccessor, float>;
 template <typename TInstance, typename T>
 NIFAS_A() TSetting<TArrayAccessor<TInstance>, Niflect::TArray<T> >;
+NIFAS_A() TSetting<CVector3Accessor, CVector3>;

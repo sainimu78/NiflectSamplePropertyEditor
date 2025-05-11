@@ -174,3 +174,35 @@ bool CArrayProperty::LoadFromCurrentImpl(CRwNode* rw) const
 	SetRwValueAs<uint32>(rw->ToValue(), this->GetElementsCount());
 	return true;
 }
+
+void CVector3Property::SetValue(const CVector3& value)
+{
+	m_value = value;
+}
+const CVector3& CVector3Property::GetValue() const
+{
+	return m_value;
+}
+void CVector3Property::SetEntry(float entry, uint32 idx)
+{
+	ASSERT(sizeof(m_value) == sizeof(float) * 3);
+	auto vec = static_cast<float*>(&m_value.m_x);
+	vec[idx] = entry;
+}
+const float& CVector3Property::GetEntry(uint32 idx) const
+{
+	ASSERT(sizeof(m_value) == sizeof(float) * 3);
+	auto vec = static_cast<const float*>(&m_value.m_x);
+	return vec[idx];
+}
+bool CVector3Property::SaveToCurrentImpl(const CRwNode* rw)
+{
+	ASSERT(rw->IsValue());
+	LoadCVector3FromRwNode(rw, m_value);//需要确保使用相同的编解码方法, 但不要求保存使用同变量类型, 如 m_value 可定义为 float m_value3
+	return true;
+}
+bool CVector3Property::LoadFromCurrentImpl(CRwNode* rw) const
+{
+	SaveCVector3ToRwNode(m_value, rw);
+	return true;
+}

@@ -3,6 +3,7 @@
 #include "Niflect/Base/Array.h"
 #include "Niflect/Serialization/RwTree.h"
 #include "Niflect/NiflectType.h"
+#include "ExampleStructure.h"
 
 class CPropertyNode;
 using CSharedPropertyNode = Niflect::TSharedPtr<CPropertyNode>;
@@ -249,4 +250,20 @@ private:
 protected:
 	virtual bool SaveToCurrentImpl(const CRwNode* rw) override;
 	virtual bool LoadFromCurrentImpl(CRwNode* rw) const override;
+};
+
+class CVector3Property : public CPropertyItem
+{
+public:
+	void SetValue(const CVector3& value);
+	const CVector3& GetValue() const;
+	void SetEntry(float entry, uint32 idx);
+	const float& GetEntry(uint32 idx) const;
+
+protected:
+	virtual bool SaveToCurrentImpl(const CRwNode* rw) override;
+	virtual bool LoadFromCurrentImpl(CRwNode* rw) const override;
+
+private:
+	CVector3 m_value;
 };

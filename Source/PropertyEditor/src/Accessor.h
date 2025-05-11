@@ -1,5 +1,6 @@
 #pragma once
 #include "Niflect/NiflectAccessor.h"
+#include "Niflect/NiflectType.h"
 
 class CAccessor : public Niflect::CNiflectAccessor
 {

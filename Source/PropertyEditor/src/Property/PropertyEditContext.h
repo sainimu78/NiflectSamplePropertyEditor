@@ -43,6 +43,11 @@ namespace PropertyTreeUtil
 				propValue = ss.str();
 				break;
 			}
+			case ERwValueType::String:
+			{
+				propValue = rw.GetValue()->GetString();
+				break;
+			}
 			default:
 				ASSERT(false);
 				break;

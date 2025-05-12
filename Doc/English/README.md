@@ -5,7 +5,7 @@
 **Niflect** is a native-style C++ reflection framework, that:
 
 - Generates reflection metadata via **NiflectGenTool** (integrated into build systems)
-- Uses macro tags to declare reflection targets
+- Uses macro tags to declare reflected types and fields
 
 ## Building
 

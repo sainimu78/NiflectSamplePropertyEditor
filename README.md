@@ -6,6 +6,41 @@
 
 **Niflect** 是一款 C++ 原生风格反射框架, 通过集成在相应构建系统中的 **NiflectGenTool** 工具生成反射代码, 使用者通过宏标签指定反射目标.
 
+## 构建
+
+```bat
+git clone git@github.com:sainimu78/NiflectSamplePropertyEditor.git
+cd NiflectSamplePropertyEditor
+git submodule update --init --remote
+```
+
+### Windows
+
+VS 2015+, 建议 VS 2022
+
+Qt 5.8 的依赖已传至本仓库不必另外安装
+
+```bat
+cd Build\PropertyEditor\Windows
+Generate.bat
+Build.bat
+::或打开 VS 操作 start DefaultBuild\PropertyEditor.sln, 须注意打开后不可升级平台工具集等项目配置
+DefaultBuild\Debug\bin\PropertyEditor.exe
+```
+
+### Linux
+
+建议 Ubuntu 20
+
+须自行安装 Qt 5.12.8
+
+```
+cd Build/PropertyEditor/Linux
+./Generate.sh
+./Build.sh
+./DefaultBuild/Debug/bin/PropertyEditor
+```
+
 ## 主要功能演示
 
 ### 1. 反射对象成员到 UI 编辑控件

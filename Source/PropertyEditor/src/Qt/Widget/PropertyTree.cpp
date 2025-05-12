@@ -82,7 +82,9 @@ void QPropertyTree::BuildRowsRecurs(CPropertyNode* prop, CPropertyUiNode* uiNode
 
 			});
 
-		auto cap = prop->m_name;
+		auto cap = uiNode->m_caption;
+		if (cap.empty())
+			cap = prop->m_name;
 		if (cap.empty())
 			cap = "(No named)";// cap = prop->m_instNode->GetType()->GetTypeName();
 		uiNode->InitRowWidget(this, prop, row, cap);
@@ -243,6 +245,8 @@ void QPropertyTree::UpdateRowsResetterAndAdjustSplitterAndUpdateExpansion(CPrope
 
 	this->UpdateResetter(uiNode);
 
+	this->UpdateRowsExpansionRecurs(uiNode);
+
 	auto width = this->width();
 	QList<int> lstColumnWidth;
 	int w0 = width / 2;
@@ -253,8 +257,6 @@ void QPropertyTree::UpdateRowsResetterAndAdjustSplitterAndUpdateExpansion(CPrope
 		if (it->m_splitter != NULL)
 			it->m_splitter->setSizes(lstColumnWidth);
 	}
-
-	this->UpdateRowsExpansionRecurs(uiNode);
 }
 void QPropertyTree::InsertRows(CPropertyUiNode* uiNode, uint32 insertIdx) const
 {

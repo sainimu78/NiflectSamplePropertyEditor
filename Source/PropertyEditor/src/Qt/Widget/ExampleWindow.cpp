@@ -10,7 +10,46 @@
 #include "Accessor/CompoundAccessor.h"
 #include "Accessor/ContainerAccessor.h"
 
-using namespace PropertyTreeUtil;
+static void DebugPrintPropertyRecurs(CPropertyNode* prop, uint32 depth = 0)
+{
+	auto strDepth = NiflectUtil::DebugIndentToString(depth);
+	auto propName = prop->m_name;
+	if (propName.empty())
+		propName = "Not a field";
+	Niflect::CString propValue;
+	if (prop->IsItem())
+	{
+		auto item = CPropertyItem::Cast(prop);
+		CRwNode rw;
+		item->LoadFromCurrent(&rw);
+		ASSERT(rw.IsValue());
+		switch (rw.GetValue()->GetType())
+		{
+		case ERwValueType::Float:
+		{
+			Niflect::CStringStream ss;
+			ss << rw.GetValue()->GetFloat();
+			propValue = ss.str();
+			break;
+		}
+		case ERwValueType::String:
+		{
+			propValue = rw.GetValue()->GetString();
+			break;
+		}
+		default:
+			ASSERT(false);
+			break;
+		}
+	}
+	if (propValue.empty())
+		propValue = "Not an item";
+	printf("%s%s, %s\n", strDepth.c_str(), propName.c_str(), propValue.c_str());
+
+	depth++;
+	for (auto& it : prop->m_vecNode)
+		DebugPrintPropertyRecurs(it.Get(), depth);
+}
 
 Niflect::TMap<Niflect::CNiflectType*, Niflect::CNiflectType*> g_mapAcsToPropType;
 
@@ -112,6 +151,12 @@ QExampleWindow::QExampleWindow(QWidget* parentWidget)
 	auto wdgCentral = new QWidget(this);
 	this->setCentralWidget(wdgCentral);
 	auto mainLayout = new QHBoxLayout(wdgCentral);
+	auto wdgLeft = new QWidget(this);
+	wdgLeft->setFixedWidth(200);
+	mainLayout->addWidget(wdgLeft);
+
+	auto leftLayout = new QVBoxLayout(wdgLeft);
+	leftLayout->setAlignment(Qt::AlignmentFlag::AlignVCenter);
 
 	auto cobCollection = new QComboBox(this);
 	QObject::connect(cobCollection, &QComboBox::currentTextChanged, [this]()
@@ -128,10 +173,11 @@ QExampleWindow::QExampleWindow(QWidget* parentWidget)
 				m_propRoot = BuildPropertyFromRwNode(&m_editCtx, type, &rwInitialRuntimeData);
 				DebugPrintPropertyRecurs(m_propRoot.Get());
 				auto uiNodeRoot = m_propTree->GetUiNodeRoot();
+				uiNodeRoot->m_caption = type->GetTypeName();
 				m_propTree->RebuildRows(m_propRoot.Get(), uiNodeRoot);
 			}
 		});
-	mainLayout->addWidget(cobCollection);
+	leftLayout->addWidget(cobCollection);
 	m_cobCollection = cobCollection;
 
 	auto btnPrint = new QPushButton("Print", this);
@@ -140,7 +186,7 @@ QExampleWindow::QExampleWindow(QWidget* parentWidget)
 			printf("----------------\n");
 			DebugPrintPropertyRecurs(m_propRoot.Get());
 		});
-	mainLayout->addWidget(btnPrint);
+	leftLayout->addWidget(btnPrint);
 
 	m_propTree = new QPropertyTree(this);
 	m_propTree->Init(&m_editCtx);

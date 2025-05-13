@@ -1,13 +1,17 @@
 [English](Doc/English/README.md)
 
-# Niflect 示例: 属性编辑器框架
+# Niflect 示例: 基于动态反射的属性编辑器框架
 
-**NiflectSamplePropertyEditor** 是一款属性编辑器框架, 作为 Niflect 的应用示例, 展示如何通过反射实现数据类型与 UI 编辑控件的自动绑定
+**NiflectSamplePropertyEditor** 是 C++ 动态反射的示例, 展示如何自动绑定数据类型与 UI 编辑控件, 如:
+
+- 运行时编辑模块中的对象 (如 .so/.dll 中的对象)
+- 无须头文件即可创建类型对应的属性控件
 
 **Niflect** 是一款 C++ 原生风格反射框架
 
 - 通过集成在相应构建系统中的 **NiflectGenTool** 工具生成反射代码
-- 使用者通过宏标签指定反射类型与成员变量
+- 解析声明式宏标签标记的类型或成员
+- 在运行时初始化反射信息以实现动态反射
 
 ## 构建
 

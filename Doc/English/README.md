@@ -1,11 +1,15 @@
-# Niflect Sample: Property Editor Framework
+# Niflect Sample: Property Editor Framework Based on Dynamic Reflection
 
-**NiflectSamplePropertyEditor** is a property editor framework that serves as an application sample of Niflect, demonstrating automatic binding between data types and UI editing controls through reflection.
+**NiflectSamplePropertyEditor** is a demonstration of dynamic reflection in C++, showcasing how to automatically bind data types to UI editing controls. This enables:
 
-**Niflect** is a native-style C++ reflection framework, that:
+- Editing objects from modules at runtime (e.g., from shared libraries/DLLs)
+- Zero header dependencies between property controls and reflected types
+
+**Niflect** is a native-style C++ reflection framework that:
 
 - Generates reflection metadata via **NiflectGenTool** (integrated into build systems)
-- Uses macro tags to declare reflected types and fields
+- Parses reflected types and members (by declarative macro tags)
+- Initializes reflection metadata at runtime (enabling dynamic reflection)
 
 ## Building
 
@@ -21,7 +25,7 @@ VS 2015+, Recommended: VS 2022
 
 Qt 5.8 dependencies are included in this repository - no additional installation required.
 
-```
+```bat
 cd Build\PropertyEditor\Windows
 Generate.bat
 Build.bat
@@ -50,7 +54,7 @@ cd Build/PropertyEditor/Linux
 ![Basic_Reflection](../Basic_Reflection.gif)
 *Workflow:*
 
-- Define C++ classes/members with Niflect macro tags
+- Define C++ types (e.g., class with members) with Niflect macro tags
 - Automatic UI control binding based on reflection metadata.
 
 ### 2. Editing and Resetting Properties

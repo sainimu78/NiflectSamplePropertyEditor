@@ -2,7 +2,7 @@
 
 **NiflectSamplePropertyEditor** is a demonstration of dynamic reflection in C++, showcasing how to automatically bind data types to UI editing controls. This enables:
 
-- Editing objects from modules at runtime (e.g., from shared libraries/DLLs)
+- Editing objects from modules at runtime (e.g., objects from shared libraries/DLLs)
 - Zero header dependencies between property controls and reflected types
 
 **Niflect** is a native-style C++ reflection framework that:

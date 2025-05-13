@@ -4,7 +4,6 @@
 #ifdef WIN32
 #include <Windows.h>
 #endif
-#include "qtimer.h"
 #include "PropertyEditorSystem.h"
 
 
@@ -32,10 +31,7 @@ static int EditorMain(int argc, char** argv)
     QExampleWindow wnd;
     wnd.resize(width, height);
     wnd.show();
-    QTimer::singleShot(1000, [&wnd, &sys]()
-        {
-            wnd.InitTypesSelection(sys.GetTable());
-        });
+    wnd.InitTypesSelection(sys.GetTable());
     return app.exec();
 }
 

@@ -1,11 +1,10 @@
-#include "QApplication"
+#include "qapplication.h"
 #include "Qt/Widget/ExampleWindow.h"
-#include "QDesktopWidget"
+#include "qdesktopwidget.h"
+#include "PropertyEditorSystem.h"
 #ifdef WIN32
 #include <Windows.h>
 #endif
-#include "PropertyEditorSystem.h"
-
 
 static int EditorMain(int argc, char** argv)
 {

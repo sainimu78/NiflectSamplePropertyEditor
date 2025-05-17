@@ -14,7 +14,7 @@ public:
 	NIF_F()
 	float m_value;
 	NIF_F()
-	Niflect::TArray<float> m_float_array;
+	std::vector<float> m_float_array;
 	NIF_F()
 	CVector3 m_vector3;
 };
@@ -27,7 +27,7 @@ public:
 
 public:
 	NIF_F()
-	Niflect::TArray<float> m_float_array_1;
+	std::vector<float> m_float_array_1;
 	NIF_F()
 	float m_value_1;
 };

@@ -6,7 +6,7 @@
 using namespace RwTree;
 
 template <typename TValue>
-class TBuiltinTypeAccessor : public CAccessor
+class TValueTypeAccessor : public CAccessor
 {
 protected:
 	virtual bool SaveInstanceImpl(const InstanceType* base, CRwNode* rw) const override
@@ -26,12 +26,8 @@ protected:
 	}
 };
 
-//NIF_T()
-//class CBoolAccessor : public TBuiltinTypeAccessor<bool>
-//{
-//};
 NIF_T()
-class CFloatAccessor : public TBuiltinTypeAccessor<float>
+class CFloatAccessor : public TValueTypeAccessor<float>
 {
 public:
 	virtual Niflect::CNiflectType* GetType() const override { return Niflect::StaticGetType<CFloatAccessor>(); }

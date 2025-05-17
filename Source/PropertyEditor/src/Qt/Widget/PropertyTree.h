@@ -13,7 +13,6 @@ class QPropertyTree : public QWidget
 	friend class CPropertyEditContext;
 public:
 	QPropertyTree(QWidget* parentWidget);
-	virtual ~QPropertyTree() override;
 
 public:
 	void Init(CPropertyEditContext* editCtx);

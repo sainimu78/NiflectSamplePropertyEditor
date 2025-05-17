@@ -15,10 +15,6 @@ QPropertyTree::QPropertyTree(QWidget* parentWidget)
 	m_rowsLayout->setAlignment(Qt::AlignmentFlag::AlignTop);
 	m_mainLayout->addLayout(m_rowsLayout);
 }
-QPropertyTree::~QPropertyTree()
-{
-	printf("");
-}
 void QPropertyTree::Init(CPropertyEditContext* editCtx)
 {
 	m_editCtx = editCtx;
@@ -79,7 +75,6 @@ void QPropertyTree::BuildRowsRecurs(CPropertyNode* prop, CPropertyUiNode* uiNode
 		row->SetOnRowResetFunc([this, uiNode]()
 			{
 				this->ResetBranch(uiNode);
-
 			});
 
 		auto cap = uiNode->m_caption;
@@ -161,13 +156,9 @@ void QPropertyTree::DeleteRows(CPropertyUiNode* uiNode) const
 	Niflect::TSet<QPropertyRow*> setRow;
 	CollectRowsRecurs(uiNode, vecNode, vecRow, setRow);
 	for (auto& it : vecNode)
-	{
 		it->ResetForRebuilding();
-	}
 	for (auto& it : vecRow)
-	{
 		delete it;
-	}
 	uiNode->m_vecNode.clear();
 }
 void QPropertyTree::UpdateResetter(CPropertyUiNode* uiNode) const

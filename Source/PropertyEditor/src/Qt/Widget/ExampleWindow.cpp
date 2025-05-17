@@ -147,7 +147,6 @@ QExampleWindow::QExampleWindow(QWidget* parentWidget)
 	g_mapAcsToPropType.insert({ Niflect::StaticGetType<CArrayAccessor>(), Niflect::StaticGetType<CArrayPropertyAddRemoveDeleteInsert>() });
 	g_mapAcsToPropType.insert({ Niflect::StaticGetType<CVector3Accessor>(), Niflect::StaticGetType<CVector3PropertyLineEditGroup>() });
 
-
 	auto wdgCentral = new QWidget(this);
 	this->setCentralWidget(wdgCentral);
 	auto mainLayout = new QHBoxLayout(wdgCentral);

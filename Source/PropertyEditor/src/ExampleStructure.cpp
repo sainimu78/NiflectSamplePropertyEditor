@@ -10,7 +10,7 @@ void LoadCVector3FromRwNode(const CRwNode* rw, CVector3& vec)
 {
 	auto str = GetRwValueAs<Niflect::CString>(rw->GetValue());
 	auto vecEntryStr = NiflectUtil::Split(str, ' ');
-	vec.m_x = atof(vecEntryStr[0].c_str());
-	vec.m_y = atof(vecEntryStr[1].c_str());
-	vec.m_z = atof(vecEntryStr[2].c_str());
+	vec.m_x = std::stof(vecEntryStr[0].c_str());
+	vec.m_y = std::stof(vecEntryStr[1].c_str());
+	vec.m_z = std::stof(vecEntryStr[2].c_str());
 }

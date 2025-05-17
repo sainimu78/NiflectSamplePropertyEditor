@@ -36,6 +36,8 @@ if (WIN32)
 	)
 endif()
 
+target_precompile_headers(${ModuleName} PUBLIC ${ModuleSourcePath}/PropertyEditorCommon.h)
+
 target_include_directories(${ModuleName}
 	PRIVATE ${IncludePathsPrivate}
 	PUBLIC ${IncludePathsPublic}

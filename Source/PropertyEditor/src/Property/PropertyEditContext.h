@@ -11,10 +11,8 @@ public:
 	}
 	void MarkDeleted(const CSharedPropertyNode& prop)
 	{
-		//m_vecDeleted.push_back(prop);
 	}
 
 private:
 	Niflect::TArray<CPropertyNode*> m_vecChanged;
-	//Niflect::TArray<CSharedPropertyNode> m_vecDeleted;
 };

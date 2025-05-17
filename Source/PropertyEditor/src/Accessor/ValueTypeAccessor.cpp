@@ -1,5 +1,4 @@
 #include "Accessor/ValueTypeAccessor.h"
-#include "Niflect/Util/StringUtil.h"
 
 bool CVector3Accessor::SaveInstanceImpl(const InstanceType* base, CRwNode* rw) const
 {

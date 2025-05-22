@@ -51,7 +51,7 @@ cd Build/PropertyEditor/Linux
 
 ## 主要功能演示
 
-### 1. 反射对象成员到 UI 编辑控件
+### 1. 对象成员自动绑定 UI 控件
 
 ![Basic_Reflection](Doc/Basic_Reflection.gif)
 

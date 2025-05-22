@@ -50,7 +50,7 @@ cd Build/PropertyEditor/Linux
 
 ## Key Demonstrations
 
-### 1. Reflecting Object Members to UI Controls
+### 1. Automatic Binding Object Members to UI Controls
 
 ![Basic_Reflection](../Basic_Reflection.gif)
 *Workflow:*

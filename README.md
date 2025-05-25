@@ -49,7 +49,16 @@ cd Build/PropertyEditor/Linux
 ./DefaultBuild/Debug/bin/PropertyEditor
 ```
 
-## 主要功能演示
+## 特性
+
+- 从 0 开始基于 Qt 实现工业级属性编辑框架, 代码仅 2000 行
+- 可自定义任意类型序列化, 见 AccessorSetting.h
+- 可自定义任意类型成员自动绑定 UI 控件, 见 `CVector3Accessor`
+- 无静态类型依赖的任意类型属性树创建, 见 `BuildPropertyFromRwNode`
+- 仅几十行代码实现任意类型编辑重置初始值的工业级编辑功能, 见 `QPropertyTree::ResetBranch`
+- 可自定义编解码为任意格式的序列化, 见 `CJsonFormat::Write` 以 JSON 为例的序列化用法
+
+## 演示
 
 ### 1. 对象成员自动绑定 UI 控件
 

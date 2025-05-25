@@ -57,6 +57,7 @@ cd Build/PropertyEditor/Linux
 - 无静态类型依赖的任意类型属性树创建, 见 `BuildPropertyFromRwNode`
 - 仅几十行代码实现任意类型编辑重置初始值的工业级编辑功能, 见 `QPropertyTree::ResetBranch`
 - 可自定义编解码为任意格式的序列化, 见 `CJsonFormat::Write` 以 JSON 为例的序列化用法
+- 数据层不与 UI 层耦合, UI 层可替换 见 PropertyNode.h
 
 ## 演示
 

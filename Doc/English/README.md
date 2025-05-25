@@ -48,6 +48,16 @@ cd Build/PropertyEditor/Linux
 ./DefaultBuild/Debug/bin/PropertyEditor
 ```
 
+## Features
+
+- Implemented an industrial-grade property editing framework from scratch using Qt (only 2000 lines of code)
+- Customizable serialization for any type (see `AccessorSetting.h`)
+- Automatic UI control binding for arbitrary type members (see `CVector3Accessor`)
+- Dependency-free property tree construction for any reflected type (see `BuildPropertyFromRwNode`)
+- Industrial-grade editing capabilities (e.g., resetting to initial values) with minimal code (see `QPropertyTree::ResetBranch`)
+- Customizable serialization format support (JSON example in `CJsonFormat::Write`)
+- Decoupled data layer from UI layer (replaceable UI implementation, see `PropertyNode.h`)
+
 ## Key Demonstrations
 
 ### 1. Automatic Binding Object Members to UI Controls

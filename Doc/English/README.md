@@ -76,3 +76,65 @@ cd Build/PropertyEditor/Linux
 - Edit properties through generated UI controls
 - Reset any property to its initial state
 
+## Property Editing FAQ
+
+**Key implementation**: `QPropertyTree::MarkChangeFromUi`
+
+### **Q1: Is this framework efficient?**
+
+#### **A1: Not efficient.** A full industrial-grade implementation would likely require 20,000+ lines of code (vs. the current 2,000+), due to challenges such as:
+
+##### **Property Layer**
+
+- **Cascading validity checks**:
+  - Input constraints (e.g., numeric ranges) must trigger updates across dependent properties.
+  - Nested properties (e.g., `CVector3` components) require synchronized UI updates.
+- **Handling transient edits**:
+  - Temporary preview values (e.g., slider drags) should avoid bloating undo history.
+- **Dynamic property hierarchies**:
+  - Represent edits as a tree/graph to manage runtime-generated structures.
+  - Balance validity checks with simplicity in property definitions.
+
+##### **Control Layer**
+
+- **Performance tradeoffs**:
+  - Optimize UI responsiveness while allowing full tree rebuilds.
+  - Update visible controls only.
+  - Preserve UI state (focus, expanded nodes) after rebuilds.
+
+##### **Multi-instance Synchronization**
+
+- Edit identical properties across filtered or distributed instances.
+- Minimize redundant validity updates.
+
+------
+
+### **Q2: Does the minimal codebase limit practicality?**
+
+#### **A2: No.** This implementation focuses on demonstrating:
+
+- **Core workflows**: Branch reconstruction, the foundation for advanced features.
+- **Reflection-driven design**: Metadata enables broad applicability without static dependencies.
+
+------
+
+### **Q3: **Why is undo/redo not implemented? Is it difficult?**
+
+#### **A3: Challenges exist at two levels:**
+
+##### **Simple Approach**
+
+- Save/Load full property tree snapshots.
+- **Flaws**: High memory usage and redundant operations.
+
+##### **Industrial Approach**
+
+- **Incremental serialization**: Store only modified data (deltas).
+- **Key hurdles**:
+  - Hybrid command design:
+    - Generic commands for simplicity.
+    - Delta-based commands for efficiency.
+  - Isolate undo logic from persistence workflows.
+  - Support partial data synchronization (e.g., transmitting deltas).
+
+These are **essential challenges** for production-ready undo systems.

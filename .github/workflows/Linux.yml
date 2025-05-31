@@ -9,6 +9,8 @@ on:
 env:
   BUILD_TYPE: Release
   c_ProjectName: "PropertyEditor"
+  QT_VERSION: "5.12.8"
+  QT_INSTALL_DIR: "${{ github.workspace }}/Qt"  # Qt 安装路径
 
 jobs:
   build:
@@ -20,20 +22,36 @@ jobs:
         submodules: recursive
         token: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Install System Dependencies
+    - name: Install Basic Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y \
           build-essential \
           cmake \
-          qt5-default \          # 安装 Qt5 基础包
-          qtbase5-dev \         # Qt5 核心开发文件
-          qtcharts5-dev \       # Qt Charts 模块
-          qtsvg5-dev \          # Qt SVG 模块
-          libgl1-mesa-dev \     # OpenGL 支持
-          libxcb-xinerama0-dev  # X11 集成
+          libgl1-mesa-dev \
+          libxkbcommon-x11-0 \
+          python3 \
+          python3-pip
+    
+    - name: Install Qt 5.12.8
+      run: |
+        echo "安装 Qt ${{ env.QT_VERSION }}..."
         
-        # 验证安装的 Qt 版本
+        # 安装 aqtinstall (简单安装工具)
+        pip3 install aqtinstall
+        
+        # 直接安装指定版本到工作目录
+        aqt install-qt linux desktop ${{ env.QT_VERSION }} gcc_64 \
+          -O ${{ env.QT_INSTALL_DIR }} \
+          -m qtcharts qtsvg
+        
+        # 设置环境变量
+        echo "QT_DIR=${{ env.QT_INSTALL_DIR }}/${{ env.QT_VERSION }}/gcc_64" >> $GITHUB_ENV
+        echo "PATH=${{ env.QT_INSTALL_DIR }}/${{ env.QT_VERSION }}/gcc_64/bin:$PATH" >> $GITHUB_ENV
+        
+        # 验证安装
+        echo "Qt 安装位置: $QT_DIR"
+        ls -l $QT_DIR
         qmake --version
     
     - name: Check Submodules
@@ -45,6 +63,7 @@ jobs:
       working-directory: Build/${{env.c_ProjectName}}/Linux
       run: |
         echo "当前工作目录: $(pwd)"
+        echo "QT_DIR 环境变量: $QT_DIR"
         ./Generate.sh
     
     - name: Build

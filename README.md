@@ -1,3 +1,6 @@
+![Build Status Linux](https://github.com/sainimu78/NiflectSampleHelloWorld/actions/workflows/Linux.yml/badge.svg)
+![Build Status Windows](https://github.com/sainimu78/NiflectSampleHelloWorld/actions/workflows/Windows.yml/badge.svg)
+
 [English](Doc/English/README.md)
 
 # Niflect 示例: 基于动态反射的属性编辑器框架

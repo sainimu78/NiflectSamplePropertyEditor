@@ -12,7 +12,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-24.04  # 明确使用 Ubuntu 24.04
 
     steps:
     - uses: actions/checkout@v4
@@ -20,25 +20,23 @@ jobs:
         submodules: recursive
         token: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Install Qt5 Compatible Libraries
+    - name: Install Qt5 Dependencies
       run: |
         sudo apt-get update
+        
+        # Ubuntu 24.04 中 Qt5 包的新名称
         sudo apt-get install -y \
           build-essential \
           cmake \
-          libqt5core5a \          # Qt5 核心库
-          libqt5gui5 \            # Qt5 GUI 库
-          libqt5widgets5 \         # Qt5 Widgets 库
-          libqt5charts5 \          # Qt5 Charts 库
-          libqt5svg5 \             # Qt5 SVG 库
-          libqt5charts5-dev \      # Qt5 Charts 开发文件
-          libqt5svg5-dev \         # Qt5 SVG 开发文件
-          qtbase5-dev \            # Qt5 基础开发文件
-          libgl1-mesa-dev \        # OpenGL 支持
-          libxcb-xinerama0-dev     # X11 集成
+          qtbase5-dev \           # Qt5 基础开发文件
+          libqt5svg5-dev \        # Qt5 SVG 开发文件
+          libqt5charts-dev \      # Qt5 Charts 开发文件
+          libgl1-mesa-dev \       # OpenGL 支持
+          libxkbcommon-x11-0 \    # X11 集成
+          libxcb-xinerama0-dev    # X11 窗口管理
         
         # 验证安装的 Qt 库版本
-        dpkg -l | grep 'libqt5'
+        dpkg -l | grep 'libqt5' | grep 'dev'
     
     - name: Check Submodules
       run: |

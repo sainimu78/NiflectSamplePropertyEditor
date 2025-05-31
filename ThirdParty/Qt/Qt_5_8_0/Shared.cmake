@@ -9,7 +9,7 @@ endif()
 set(v_ImportedLibRootDirPath ${c_RootThirdPartyDirPath}/Qt/${QtVersion})
 set(v_UnzippedDirPath ${v_ImportedLibRootDirPath}/${ImportedLibName})
 set(v_ZipFileName ${ImportedLibName}.zip)
-set(v_SrcAddrZipFilePath ${c_StorageAddrPath}/ThirdParty/Qt/${c_ProjectPlatform}/${v_ZipFileName})
+set(v_SrcZipAddrFilePath ${c_StorageAddrPath}/ThirdParty/Qt/${c_ProjectPlatform}/${v_ZipFileName})
 
 include(${c_RootThirdPartyDirPath}/Qt/Qt_5_x/Deps.cmake)
 if(v_FindPackageBasedIntegration)

@@ -9,8 +9,6 @@ on:
 env:
   BUILD_TYPE: Release
   c_ProjectName: "PropertyEditor"
-  QT_VERSION: "5.12.8"
-  QT_INSTALL_DIR: "${{ github.workspace }}/Qt"  # Qt 安装路径
 
 jobs:
   build:
@@ -30,28 +28,38 @@ jobs:
           cmake \
           libgl1-mesa-dev \
           libxkbcommon-x11-0 \
-          python3 \
-          python3-pip
+          wget
     
-    - name: Install Qt 5.12.8
+    - name: Download and Install Prebuilt Qt 5.12.8
       run: |
-        echo "安装 Qt ${{ env.QT_VERSION }}..."
+        echo "下载预编译的 Qt 5.12.8..."
+        wget https://download.qt.io/archive/qt/5.12/5.12.8/qt-opensource-linux-x64-5.12.8.run
+        chmod +x qt-opensource-linux-x64-5.12.8.run
         
-        # 安装 aqtinstall (简单安装工具)
-        pip3 install aqtinstall
+        # 创建安装目录
+        QT_INSTALL_DIR="$HOME/Qt"
+        mkdir -p $QT_INSTALL_DIR
         
-        # 直接安装指定版本到工作目录
-        aqt install-qt linux desktop ${{ env.QT_VERSION }} gcc_64 \
-          -O ${{ env.QT_INSTALL_DIR }} \
-          -m qtcharts qtsvg
+        # 静默安装 (不需要交互脚本)
+        echo "开始静默安装..."
+        ./qt-opensource-linux-x64-5.12.8.run \
+          --platform minimal \
+          --script /dev/null \
+          --accept-licenses \
+          --confirm-command \
+          install \
+          --root "$QT_INSTALL_DIR" \
+          --auto-answer install-everything=1 \
+          --default-answer
         
         # 设置环境变量
-        echo "QT_DIR=${{ env.QT_INSTALL_DIR }}/${{ env.QT_VERSION }}/gcc_64" >> $GITHUB_ENV
-        echo "PATH=${{ env.QT_INSTALL_DIR }}/${{ env.QT_VERSION }}/gcc_64/bin:$PATH" >> $GITHUB_ENV
+        QT_PATH="$QT_INSTALL_DIR/5.12.8/gcc_64"
+        echo "QT_DIR=$QT_PATH" >> $GITHUB_ENV
+        echo "PATH=$QT_PATH/bin:$PATH" >> $GITHUB_ENV
         
         # 验证安装
-        echo "Qt 安装位置: $QT_DIR"
-        ls -l $QT_DIR
+        echo "Qt 安装位置: $QT_PATH"
+        ls -l $QT_PATH
         qmake --version
     
     - name: Check Submodules

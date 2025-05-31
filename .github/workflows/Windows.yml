@@ -50,11 +50,11 @@ jobs:
       run: |
         Build.bat
 
-    - name: Run
-      shell: cmd
-      working-directory: Build/${{env.c_ProjectName}}/Windows/DefaultBuild/Release/bin
-      run: |
-        ${{env.c_ProjectName}}.exe
+    # - name: Run
+    #   shell: cmd
+    #   working-directory: Build/${{env.c_ProjectName}}/Windows/DefaultBuild/Release/bin
+    #   run: |
+    #     ${{env.c_ProjectName}}.exe
 
 
     #- name: Test

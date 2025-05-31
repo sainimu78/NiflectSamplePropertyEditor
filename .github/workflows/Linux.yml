@@ -12,7 +12,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04  # 明确使用 Ubuntu 24.04
+    runs-on: ubuntu-24.04
 
     steps:
     - uses: actions/checkout@v4
@@ -20,23 +20,99 @@ jobs:
         submodules: recursive
         token: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Install Qt5 Dependencies
+    - name: Install Essential Dependencies
       run: |
+        # 先安装基本构建工具
         sudo apt-get update
-        
-        # Ubuntu 24.04 中 Qt5 包的新名称
-        sudo apt-get install -y \
+        sudo apt-get install -y --no-install-recommends \
           build-essential \
           cmake \
-          qtbase5-dev \           # Qt5 基础开发文件
-          libqt5svg5-dev \        # Qt5 SVG 开发文件
-          libqt5charts-dev \      # Qt5 Charts 开发文件
-          libgl1-mesa-dev \       # OpenGL 支持
-          libxkbcommon-x11-0 \    # X11 集成
-          libxcb-xinerama0-dev    # X11 窗口管理
+          libgl1-mesa-dev
         
-        # 验证安装的 Qt 库版本
-        dpkg -l | grep 'libqt5' | grep 'dev'
+        # 验证基本工具安装
+        gcc --version
+        cmake --version
+    
+    - name: Install Qt5 Libraries
+      run: |
+        # 搜索可用的 Qt5 开发包
+        echo "可用的 Qt5 开发包:"
+        apt-cache search 'qt5' | grep 'dev' || true
+        
+        # 安装所有找到的 Qt5 开发包
+        sudo apt-get install -y --no-install-recommends \
+          $(apt-cache search 'qt5' | grep 'dev' | awk '{print $1}' | sort | uniq)
+        
+        # 验证安装
+        echo "已安装的 Qt 包:"
+        dpkg -l | grep 'qt' | grep 'dev'
+        
+        # 检查关键库是否存在
+        ls /usr/lib/x86_64-linux-gnu/libQt5Core.so* || echo "Qt5Core not found"
+        ls /usr/lib/x86_64-linux-gnu/libQt5Gui.so* || echo "Qt5Gui not found"
+        ls /usr/lib/x86_64-linux-gnu/libQt5Widgets.so* || echo "Qt5Widgets not found"
+    
+    - name: Install Specific Qt Components
+      run: |
+        # 尝试安装特定组件（如果存在）
+        sudo apt-get install -y --no-install-recommends \
+          libqt5svg5-dev \
+          libqt5charts5-dev \
+          qtbase5-dev \
+          2>/dev/null || echo "Specific Qt components not available"
+        
+        # 手动检查组件
+        echo "检查 SVG 支持:"
+        ls /usr/lib/x86_64-linux-gnu/libQt5Svg.so* || echo "Qt5Svg not found"
+        
+        echo "检查 Charts 支持:"
+        ls /usr/lib/x86_64-linux-gnu/libQt5Charts.so* || echo "Qt5Charts not found"
+    
+    - name: Build Qt Components from Source (Fallback)
+      if: ${{ failure() }}  # 仅在上述步骤失败时运行
+      run: |
+        echo "安装编译依赖..."
+        sudo apt-get install -y \
+          git \
+          ninja-build \
+          libfontconfig1-dev \
+          libfreetype6-dev \
+          libx11-dev \
+          libx11-xcb-dev \
+          libxext-dev \
+          libxfixes-dev \
+          libxi-dev \
+          libxrender-dev \
+          libxcb1-dev \
+          libxcb-glx0-dev \
+          libxcb-keysyms1-dev \
+          libxcb-image0-dev \
+          libxcb-shm0-dev \
+          libxcb-icccm4-dev \
+          libxcb-sync-dev \
+          libxcb-xfixes0-dev \
+          libxcb-shape0-dev \
+          libxcb-randr0-dev \
+          libxcb-render-util0-dev \
+          libxcb-xinerama0-dev \
+          libxcb-xkb-dev \
+          libxkbcommon-dev \
+          libxkbcommon-x11-dev
+        
+        # 克隆 Qt 5.12.8 源码
+        git clone --depth 1 --branch v5.12.8 https://code.qt.io/qt/qt5.git
+        cd qt5
+        perl init-repository --module-subset=qtbase,qtsvg,qtcharts
+        
+        # 配置和编译
+        ./configure -prefix /opt/Qt/5.12.8 -opensource -confirm-license -nomake tests -nomake examples
+        make -j$(nproc)
+        sudo make install
+        
+        # 设置环境变量
+        echo "QT_DIR=/opt/Qt/5.12.8" >> $GITHUB_ENV
+        echo "PATH=/opt/Qt/5.12.8/bin:$PATH" >> $GITHUB_ENV
+        echo "LD_LIBRARY_PATH=/opt/Qt/5.12.8/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
     
     - name: Check Submodules
       run: |
@@ -47,6 +123,7 @@ jobs:
       working-directory: Build/${{env.c_ProjectName}}/Linux
       run: |
         echo "当前工作目录: $(pwd)"
+        echo "QT_DIR 环境变量: $QT_DIR"
         ./Generate.sh
     
     - name: Build

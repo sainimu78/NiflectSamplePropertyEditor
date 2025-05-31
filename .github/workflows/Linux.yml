@@ -20,20 +20,25 @@ jobs:
         submodules: recursive
         token: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Install System Dependencies
+    - name: Install Qt5 Compatible Libraries
       run: |
         sudo apt-get update
         sudo apt-get install -y \
           build-essential \
           cmake \
-          qtbase5-dev \         # Qt5 核心开发文件
-          qtcharts5-dev \       # Qt Charts 模块
-          qtsvg5-dev \          # Qt SVG 模块
-          libgl1-mesa-dev \     # OpenGL 支持
-          libxcb-xinerama0-dev  # X11 集成
+          libqt5core5a \          # Qt5 核心库
+          libqt5gui5 \            # Qt5 GUI 库
+          libqt5widgets5 \         # Qt5 Widgets 库
+          libqt5charts5 \          # Qt5 Charts 库
+          libqt5svg5 \             # Qt5 SVG 库
+          libqt5charts5-dev \      # Qt5 Charts 开发文件
+          libqt5svg5-dev \         # Qt5 SVG 开发文件
+          qtbase5-dev \            # Qt5 基础开发文件
+          libgl1-mesa-dev \        # OpenGL 支持
+          libxcb-xinerama0-dev     # X11 集成
         
-        # 验证安装的 Qt 版本
-        qmake --version
+        # 验证安装的 Qt 库版本
+        dpkg -l | grep 'libqt5'
     
     - name: Check Submodules
       run: |
@@ -44,7 +49,6 @@ jobs:
       working-directory: Build/${{env.c_ProjectName}}/Linux
       run: |
         echo "当前工作目录: $(pwd)"
-        # 使用系统默认的 Qt 安装
         ./Generate.sh
     
     - name: Build

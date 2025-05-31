@@ -20,25 +20,23 @@ jobs:
         submodules: recursive
         token: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Install Qt5 Compatible Libraries
+    - name: Install PyQt5 for Qt5 Compatibility
       run: |
         sudo apt-get update
         sudo apt-get install -y \
-          build-essential \
-          cmake \
-          libqt5core5a \          # Qt5 核心库
-          libqt5gui5 \            # Qt5 GUI 库
-          libqt5widgets5 \         # Qt5 Widgets 库
-          libqt5charts5 \          # Qt5 Charts 库
-          libqt5svg5 \             # Qt5 SVG 库
-          libqt5charts5-dev \      # Qt5 Charts 开发文件
-          libqt5svg5-dev \         # Qt5 SVG 开发文件
-          qtbase5-dev \            # Qt5 基础开发文件
-          libgl1-mesa-dev \        # OpenGL 支持
-          libxcb-xinerama0-dev     # X11 集成
+          python3 \
+          python3-pip \
+          python3-pyqt5 \          # PyQt5 核心
+          python3-pyqt5.qtcharts \ # PyQt5 Charts 模块
+          python3-pyqt5.qtsvg     # PyQt5 SVG 模块
         
-        # 验证安装的 Qt 库版本
-        dpkg -l | grep 'libqt5'
+        # 验证安装
+        python3 -c "from PyQt5 import QtCore; print('PyQt5 version:', QtCore.PYQT_VERSION_STR)"
+        python3 -c "from PyQt5 import QtCharts; print('QtCharts module available')"
+        python3 -c "from PyQt5 import QtSvg; print('QtSvg module available')"
+        
+        # 设置环境变量（如果需要）
+        echo "PYTHONPATH=/usr/lib/python3/dist-packages" >> $GITHUB_ENV
     
     - name: Check Submodules
       run: |

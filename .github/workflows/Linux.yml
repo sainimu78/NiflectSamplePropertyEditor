@@ -20,46 +20,19 @@ jobs:
         submodules: recursive
         token: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Install Basic Dependencies
+    - name: Install System Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y \
           build-essential \
           cmake \
-          libgl1-mesa-dev \
-          libxkbcommon-x11-0 \
-          wget
-    
-    - name: Download and Install Prebuilt Qt 5.12.8
-      run: |
-        echo "下载预编译的 Qt 5.12.8..."
-        wget https://download.qt.io/archive/qt/5.12/5.12.8/qt-opensource-linux-x64-5.12.8.run
-        chmod +x qt-opensource-linux-x64-5.12.8.run
+          qtbase5-dev \         # Qt5 核心开发文件
+          qtcharts5-dev \       # Qt Charts 模块
+          qtsvg5-dev \          # Qt SVG 模块
+          libgl1-mesa-dev \     # OpenGL 支持
+          libxcb-xinerama0-dev  # X11 集成
         
-        # 创建安装目录
-        QT_INSTALL_DIR="$HOME/Qt"
-        mkdir -p $QT_INSTALL_DIR
-        
-        # 静默安装 (不需要交互脚本)
-        echo "开始静默安装..."
-        ./qt-opensource-linux-x64-5.12.8.run \
-          --platform minimal \
-          --script /dev/null \
-          --accept-licenses \
-          --confirm-command \
-          install \
-          --root "$QT_INSTALL_DIR" \
-          --auto-answer install-everything=1 \
-          --default-answer
-        
-        # 设置环境变量
-        QT_PATH="$QT_INSTALL_DIR/5.12.8/gcc_64"
-        echo "QT_DIR=$QT_PATH" >> $GITHUB_ENV
-        echo "PATH=$QT_PATH/bin:$PATH" >> $GITHUB_ENV
-        
-        # 验证安装
-        echo "Qt 安装位置: $QT_PATH"
-        ls -l $QT_PATH
+        # 验证安装的 Qt 版本
         qmake --version
     
     - name: Check Submodules
@@ -71,7 +44,7 @@ jobs:
       working-directory: Build/${{env.c_ProjectName}}/Linux
       run: |
         echo "当前工作目录: $(pwd)"
-        echo "QT_DIR 环境变量: $QT_DIR"
+        # 使用系统默认的 Qt 安装
         ./Generate.sh
     
     - name: Build

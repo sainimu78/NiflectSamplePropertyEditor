@@ -1,5 +1,5 @@
-![Build Status Linux](https://github.com/sainimu78/NiflectSampleHelloWorld/actions/workflows/Linux.yml/badge.svg)
-![Build Status Windows](https://github.com/sainimu78/NiflectSampleHelloWorld/actions/workflows/Windows.yml/badge.svg)
+![Build Status Linux](https://github.com/sainimu78/NiflectSamplePropertyEditor/actions/workflows/Linux.yml/badge.svg)
+![Build Status Windows](https://github.com/sainimu78/NiflectSamplePropertyEditor/actions/workflows/Windows.yml/badge.svg)
 
 [English](Doc/English/README.md)
 

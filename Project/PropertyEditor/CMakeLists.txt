@@ -45,8 +45,8 @@ target_include_directories(${ModuleName}
 
 list(APPEND v_ListAccessorSettingHeaderFilePath ${ModuleSourcePath}/AccessorSetting.h)
 list(APPEND v_ListModuleHeaderFilePath ${ModuleHeaders})
-list(APPEND v_ListToolOption "-gsr")
-#set(v_EnabledDebuggerAttaching ON)
+set(v_EnabledLoadTimeModuleRegistrar TRUE)
+#set(v_EnabledDebuggerAttaching TRUE)
 include(${c_RootProjectDirPath}/Niflect/Default.cmake)
 
 include(Licensed_Qt.cmake)

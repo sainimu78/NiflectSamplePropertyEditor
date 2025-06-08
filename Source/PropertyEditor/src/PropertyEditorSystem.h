@@ -1,5 +1,5 @@
 #pragma once
-#include "Niflect/NiflectTable.h"
+#include "Niflect/NiflectLoadTimeModuleRegistry.h"
 
 class CPropertyEditorSystem
 {
@@ -12,4 +12,5 @@ public:
 
 private:
 	Niflect::CNiflectTable* m_table;
+	Niflect::CNiflectModuleRegistry2 m_reg;
 };

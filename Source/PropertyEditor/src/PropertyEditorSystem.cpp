@@ -8,10 +8,8 @@ CPropertyEditorSystem::CPropertyEditorSystem()
 }
 void CPropertyEditorSystem::Init()
 {
-	auto reg = Niflect::GetModuleRegistry();
-	reg->InitRegisteredModules();
-
-	ASSERT(reg->GetModulesCount() == 1);
-	auto mod = reg->GetModuleByIndex(0);
+	m_reg.InitLoadTimeModules();
+	ASSERT(m_reg.GetModulesCount() == 1);
+	auto mod = m_reg.GetModuleByIndex(0);
 	m_table = mod->GetTable();
 }

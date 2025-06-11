@@ -1,4 +1,4 @@
-# Niflect Sample: Property Editor Framework Based on Dynamic Reflection
+# Niflect Sample: Property Editor Framework with Dynamic Binding of Type Instances
 
 **NiflectSamplePropertyEditor** is a practical demonstration of **dynamic reflection in C++**, showcasing how to **automatically bind** data types to UI editing controls. This enables:
 

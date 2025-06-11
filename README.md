@@ -3,7 +3,7 @@
 
 [English](Doc/English/README.md)
 
-# Niflect 示例: 基于动态反射的属性编辑器框架
+# Niflect 示例: 动态绑定类型实例的属性编辑器框架
 
 **NiflectSamplePropertyEditor** 是 **C++ 动态反射**的实用示例, 展示如何**自动绑定**数据类型与 UI 编辑控件, 如:
 

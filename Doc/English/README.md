@@ -74,17 +74,18 @@ cd Build/PropertyEditor/Linux
 *Interactions:*
 
 - Edit properties through generated UI controls
-- Reset any property to its initial state
+- The reset buttons are enabled/disabled based on value changes
+- Reset any property or property group to its initial state
 
 ## Property Editing FAQ
 
 **Key implementation**: `QPropertyTree::MarkChangeFromUi`
 
-### **Q1: Is this framework efficient?**
+### Q1: Is this framework efficient?
 
-#### **A1: Not efficient.** A full industrial-grade implementation would likely require 20,000+ lines of code (vs. the current 2,000+), due to challenges such as:
+#### A1: Not efficient. A full industrial-grade implementation would likely require 20,000+ lines of code (vs. the current 2,000+), due to challenges such as:
 
-##### **Property Layer**
+##### Property Layer
 
 - **Cascading validity checks**:
   - Input constraints (e.g., numeric ranges) must trigger updates across dependent properties.
@@ -95,21 +96,21 @@ cd Build/PropertyEditor/Linux
   - Represent edits as a tree/graph to manage runtime-generated structures.
   - Balance validity checks with simplicity in property definitions.
 
-##### **Control Layer**
+##### Control Layer
 
 - **Performance tradeoffs**:
   - Optimize UI responsiveness while allowing full tree rebuilds.
   - Update visible controls only.
   - Preserve UI state (focus, expanded nodes) after rebuilds.
 
-##### **Multi-instance Synchronization**
+##### Multi-instance Synchronization
 
 - Edit identical properties across filtered or distributed instances.
 - Minimize redundant validity updates.
 
 ------
 
-### **Q2: Does the minimal codebase limit practicality?**
+### Q2: Does the minimal codebase limit practicality?
 
 #### **A2: No.** This implementation focuses on demonstrating:
 
@@ -118,16 +119,16 @@ cd Build/PropertyEditor/Linux
 
 ------
 
-### **Q3: **Why is undo/redo not implemented? Is it difficult?**
+### Q3: Why is undo/redo not implemented? Is it difficult?
 
-#### **A3: Challenges exist at two levels:**
+#### A3: Challenges exist at two levels:
 
-##### **Simple Approach**
+##### Simple Approach
 
 - Save/Load full property tree snapshots.
 - **Flaws**: High memory usage and redundant operations.
 
-##### **Industrial Approach**
+##### Industrial Approach
 
 - **Incremental serialization**: Store only modified data (deltas).
 - **Key hurdles**:

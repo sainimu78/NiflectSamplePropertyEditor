@@ -1,52 +1,15 @@
 # Niflect Sample: Property Editor Framework with Dynamic Binding of Type Instances
 
-**NiflectSamplePropertyEditor** is a practical demonstration of **dynamic reflection in C++**, showcasing how to **automatically bind** data types to UI editing controls. This enables:
+**NiflectSamplePropertyEditor** is a practical demonstration of **dynamic reflection in C++**, showcasing how to **automatically bind** data types to UI editing controls.
 
-- Editing objects from modules at runtime (e.g., objects from shared libraries/DLLs)
-- Zero header dependencies between property controls and reflected types
-- Generating and accessing reflection metadata based on **Niflect**
+The capabilities of dynamic reflection include:
 
-**Niflect** is a native-style C++ reflection framework that:
+  - Editing objects in modules at runtime (e.g., objects in .so/.dll files)
+  - Creating property controls for types **without header file dependencies**
 
-- Generates reflection metadata via **NiflectGenTool** (integrated into build systems)
-- Parses reflected types and members (by declarative macro tags)
-- Initializes reflection metadata at runtime (enabling dynamic reflection)
+The required reflection metadata of dynamic reflection is generated via Niflect
 
-## Building
-
-```bat
-git clone git@github.com:sainimu78/NiflectSamplePropertyEditor.git
-cd NiflectSamplePropertyEditor
-git submodule update --init --remote
-```
-
-### Windows
-
-VS 2015+, Recommended: VS 2022
-
-Qt 5.8 dependencies are included in this repository - no additional installation required.
-
-```bat
-cd Build\PropertyEditor\Windows
-Generate.bat
-Build.bat
-:: Alternatively, open the VS solution: start DefaultBuild\PropertyEditor.sln
-:: Note: Do not upgrade platform toolset or project configurations when opening
-DefaultBuild\Debug\bin\PropertyEditor.exe
-```
-
-### Linux
-
-Recommended: Ubuntu 20
-
-Qt 5.12.8 must be installed manually
-
-```bash
-cd Build/PropertyEditor/Linux
-./Generate.sh
-./Build.sh
-./DefaultBuild/Debug/bin/PropertyEditor
-```
+**Niflect** is a native-style C++ reflection framework. See [Introduction](https://github.com/sainimu78/NiflectSampleHelloWorld)
 
 ## Features
 
@@ -76,6 +39,42 @@ cd Build/PropertyEditor/Linux
 - Edit properties through generated UI controls
 - The reset buttons are enabled/disabled based on value changes
 - Reset any property or property group to its initial state
+
+## Building
+
+```bat
+git clone git@github.com:sainimu78/NiflectSamplePropertyEditor.git
+cd NiflectSamplePropertyEditor
+git submodule update --init --remote
+```
+
+### Windows
+
+VS 2015+, Recommended: VS 2022
+
+```bat
+cd Build\PropertyEditor\Windows
+Generate.bat
+Build.bat
+:: Alternatively, open the VS solution: start DefaultBuild\PropertyEditor.sln
+:: Note: Do not upgrade platform toolset or project configurations when opening
+cd DefaultBuild\Debug\bin
+PropertyEditor.exe
+```
+
+### Linux
+
+Recommended: Ubuntu 20
+
+Qt 5.12.8 must be installed manually
+
+```bash
+cd Build/PropertyEditor/Linux
+./Generate.sh
+./Build.sh
+cd DefaultBuild/Debug/bin
+./PropertyEditor
+```
 
 ## Property Editing FAQ
 
@@ -125,8 +124,8 @@ cd Build/PropertyEditor/Linux
 
 ##### Simple Approach
 
-- Save/Load full property tree snapshots.
-- **Flaws**: High memory usage and redundant operations.
+- Save/Load full tree snapshots for undo/redo.
+- **Flaws**: High memory usage.
 
 ##### Industrial Approach
 

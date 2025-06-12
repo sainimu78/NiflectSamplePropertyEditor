@@ -5,52 +5,16 @@
 
 # Niflect 示例: 动态绑定类型实例的属性编辑器框架
 
-**NiflectSamplePropertyEditor** 是 **C++ 动态反射**的实用示例, 展示如何**自动绑定**数据类型与 UI 编辑控件, 如:
+**NiflectSamplePropertyEditor** 是 **C++ 动态反射**的实用示例, 展示如何**自动绑定**数据类型与 UI 编辑控件.
+
+动态反射的作用如:
 
 - 运行时编辑模块中的对象 (如 .so/.dll 中的对象)
-- 无须头文件即可创建类型对应的属性控件
-- 基于 **Niflect** 生成与获取反射元数据
+- **无须头文件**即可创建类型对应的属性控件
 
-**Niflect** 是一款 C++ 原生风格反射框架
+动态反射所需的反射元数据通过 Niflect 生成
 
-- 通过集成在相应构建系统中的 **NiflectGenTool** 工具生成反射代码
-- 解析声明式宏标签标记的类型或成员
-- 在运行时初始化反射元数以实现动态反射
-
-## 构建
-
-```bat
-git clone git@github.com:sainimu78/NiflectSamplePropertyEditor.git
-cd NiflectSamplePropertyEditor
-git submodule update --init --remote
-```
-
-### Windows
-
-VS 2015+, 建议 VS 2022
-
-Qt 5.8 的依赖已传至本仓库不必另外安装
-
-```bat
-cd Build\PropertyEditor\Windows
-Generate.bat
-Build.bat
-::或打开 VS 操作 start DefaultBuild\PropertyEditor.sln, 须注意打开后不可升级平台工具集等项目配置
-DefaultBuild\Debug\bin\PropertyEditor.exe
-```
-
-### Linux
-
-建议 Ubuntu 20
-
-须自行安装 Qt 5.12.8
-
-```
-cd Build/PropertyEditor/Linux
-./Generate.sh
-./Build.sh
-./DefaultBuild/Debug/bin/PropertyEditor
-```
+**Niflect** 是一款 C++ 原生风格反射框架, 详见[介绍](https://github.com/sainimu78/NiflectSampleHelloWorld)
 
 ## 特性
 
@@ -82,6 +46,39 @@ cd Build/PropertyEditor/Linux
 - 通过生成的 UI 控件编辑属性
 - 属性重置按钮根据值变化相应启用或禁用
 - 重置任意属性或属性组为初始状态
+
+## 构建
+
+```bat
+git clone git@github.com:sainimu78/NiflectSamplePropertyEditor.git
+cd NiflectSamplePropertyEditor
+git submodule update --init --remote
+```
+
+### Windows
+
+VS 2015+, 建议 VS 2022
+
+```bat
+cd Build\PropertyEditor\Windows
+Generate.bat
+Build.bat
+::或打开 VS 操作 start DefaultBuild\PropertyEditor.sln, 须注意打开后不可升级平台工具集等项目配置
+DefaultBuild\Debug\bin\PropertyEditor.exe
+```
+
+### Linux
+
+建议 Ubuntu 20
+
+须自行安装 Qt 5.12.8
+
+```
+cd Build/PropertyEditor/Linux
+./Generate.sh
+./Build.sh
+./DefaultBuild/Debug/bin/PropertyEditor
+```
 
 ## 关于属性修改的 FAQ
 
@@ -121,7 +118,7 @@ cd Build/PropertyEditor/Linux
 
 ##### 可轻易实现
 
-仅对于撤销/重做功能, 是能够极简实现的, 即通过属性树独立的 Save / Load 数据, 与撤销栈的进栈/出栈对应, 即可轻易实现任意操作可撤销, 此方法的致命问题是内存占用大且操作冗余.
+仅对于撤销/重做功能, 是能够极简实现的, 即通过属性树独立的 Save / Load 数据, 与撤销栈的进栈/出栈对应, 即可轻易实现任意操作可撤销, 此方法的致命问题是内存占用大.
 
 ##### 不易实现
 

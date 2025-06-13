@@ -1,3 +1,8 @@
+![Build Status Linux](https://github.com/sainimu78/NiflectSamplePropertyEditor/actions/workflows/Linux.yml/badge.svg)
+![Build Status Windows](https://github.com/sainimu78/NiflectSamplePropertyEditor/actions/workflows/Windows.yml/badge.svg)
+
+[中文](../../README.md)
+
 # Niflect Sample: Property Editor Framework with Dynamic Binding of Type Instances
 
 **NiflectSamplePropertyEditor** is a practical demonstration of **dynamic reflection in C++**, showcasing how to **automatically bind** data types to UI editing controls.

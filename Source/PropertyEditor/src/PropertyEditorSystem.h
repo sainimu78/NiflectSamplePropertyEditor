@@ -12,5 +12,5 @@ public:
 
 private:
 	Niflect::CNiflectTable* m_table;
-	Niflect::CNiflectModuleRegistry2 m_reg;
+	Niflect::CNiflectModuleRegistry m_reg;
 };

@@ -2,10 +2,11 @@
 #include "qboxlayout.h"
 #include "Qt/Util/CoreUtil.h"
 #include "Qt/Widget/PropertyTree.h"
-#include "Niflect/Serialization/JsonFormat.h"
+#include "Niflect/Component/RwTree/Serialization/JsonFormat.h"
 #include "Niflect/Util/FileStreamUtil.h"
 #include "Accessor.h"
-#include "Niflect/Default/SharedInstance.h"
+#include "Niflect/Component/SharedInstance.h"
+#include "Niflect/Util/DebugUtil.h"
 
 #include "Accessor/ValueTypeAccessor.h"
 #include "Accessor/CompoundAccessor.h"

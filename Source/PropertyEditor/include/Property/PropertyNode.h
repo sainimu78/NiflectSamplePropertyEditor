@@ -1,9 +1,10 @@
 #pragma once
 #include "Niflect/Base/SharedPtr.h"
 #include "Niflect/Base/Array.h"
-#include "Niflect/Serialization/RwTree.h"
+#include "Niflect/Component/RwTree/RwTree.h"
 #include "Niflect/NiflectType.h"
 #include "ExampleStructure.h"
+#include <functional>
 
 class CPropertyNode;
 using CSharedPropertyNode = Niflect::TSharedPtr<CPropertyNode>;

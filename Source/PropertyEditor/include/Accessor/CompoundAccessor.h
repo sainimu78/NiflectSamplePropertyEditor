@@ -32,7 +32,7 @@ protected:
 		}
 		return true;
 	}
-	virtual bool BuildInstanceNodeImpl(CInstanceNode* node) const override
+	virtual bool BuildInstanceNodeImpl(CRwInstanceNode* node) const override
 	{
 		for (auto& it : this->GetOwnerType()->GetFields())
 		{
@@ -45,7 +45,7 @@ protected:
 	}
 
 private:
-	bool FieldBuildInstanceNode(CField& field, CInstanceNode* parent, CInstanceNode* node) const
+	bool FieldBuildInstanceNode(CField& field, CRwInstanceNode* parent, CRwInstanceNode* node) const
 	{
 		return node->InitAndBuild(field.GetType(), field.GetAddr(parent->GetBase()), field.GetName(), parent);
 	}

@@ -4,6 +4,7 @@
 #include "qboxlayout.h"
 #include "Qt/Widget/PropertyUiNode.h"
 #include "Property/PropertyEditContext.h"
+#include "Niflect/Base/Set.h"
 
 using OnChangeFromUiAppliedFunc = std::function<void(CPropertyNode* prop)>;
 

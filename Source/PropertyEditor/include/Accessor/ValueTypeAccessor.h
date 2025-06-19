@@ -3,8 +3,6 @@
 #include "ExampleStructure.h"
 #include "Accessor/ValueTypeAccessor_gen.h"
 
-using namespace RwTree;
-
 template <typename TValue>
 class TValueTypeAccessor : public CAccessor
 {

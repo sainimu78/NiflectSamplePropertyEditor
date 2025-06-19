@@ -1,2 +1,2 @@
 #pragma once
-#include "Niflect/Default/DefaultCommon.h"
+#include "Niflect/Component/DefaultCommon.h"

@@ -1,6 +1,6 @@
 #include "Property/PropertyNode.h"
 #include "Property/PropertyEditContext.h"
-#include "Niflect/Default/SharedInstance.h"
+#include "Niflect/Component/SharedInstance.h"
 
 void CPropertyNode::InsertNode(const CSharedPropertyNode& node, uint32 idx)
 {

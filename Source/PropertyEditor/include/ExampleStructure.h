@@ -1,5 +1,5 @@
 #pragma once
-#include "Niflect/Serialization/RwTree.h"
+#include "Niflect/Component/RwTree/RwTree.h"
 
 using namespace RwTree;
 

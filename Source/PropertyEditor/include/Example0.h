@@ -1,6 +1,6 @@
 #pragma once
 #include "ExampleNata.h"
-#include "Niflect/Default/DefaultMacroTag.h"
+#include "Niflect/Component/DefaultMacroTag.h"
 #include "Niflect/Base/Array.h"
 #include "ExampleStructure.h"
 

@@ -45,7 +45,7 @@ protected:
 		}
 		return true;
 	}
-	virtual bool BuildInstanceNodeImpl(CInstanceNode* node) const override
+	virtual bool BuildInstanceNodeImpl(CRwInstanceNode* node) const override
 	{
 		auto& instance = *static_cast<TArrayType*>(node->GetBase());
 		auto elemType = this->GetElementType();

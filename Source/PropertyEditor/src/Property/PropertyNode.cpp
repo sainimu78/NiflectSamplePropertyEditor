@@ -1,5 +1,6 @@
 #include "Property/PropertyNode.h"
 #include "Property/PropertyEditContext.h"
+#include "Niflect/Default/SharedInstance.h"
 
 void CPropertyNode::InsertNode(const CSharedPropertyNode& node, uint32 idx)
 {
@@ -116,7 +117,7 @@ void CArrayProperty::Resize(uint32 cnt)
 void CArrayProperty::InternalInsertElement(uint32 idx)
 {
 	ASSERT(m_elemType != NULL);
-	auto elem = Niflect::NiflectTypeMakeShared<CPropertyNode>(m_elemType);
+	auto elem = Niflect::MakeSharedInstance<CPropertyNode>(m_elemType);
 	elem->InitForNode(m_editCtx, this, "");
 	this->InsertNode(elem, idx);
 }

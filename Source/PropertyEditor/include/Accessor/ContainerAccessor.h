@@ -15,7 +15,7 @@ template <typename TArrayType>
 class TArrayAccessor : public CArrayAccessor
 {
 protected:
-	virtual bool SaveInstanceImpl(const InstanceType* base, CRwNode* rw) const override
+	virtual bool SaveImpl(const InstanceType* base, CRwNode* rw) const override
 	{
 		auto& instance = *static_cast<const TArrayType*>(base);
 		ASSERT(!rw->IsArray());
@@ -25,12 +25,12 @@ protected:
 		{
 			auto rwItem = CreateRwNode();
 			auto elemBase = &instance[idx];//如std::vector<bool>无法支持, 因此额外定义特化模板 GetElementBaseToX, 也可改用std::vector<uint8>, 或另定义Accessor
-			if (elemType->SaveInstanceToRwNode(elemBase, rwItem.Get()))
+			if (SaveInstanceToRwNode(elemType, elemBase, rwItem.Get()))
 				rwArray->AddItem(rwItem);
 		}
 		return true;
 	}
-	virtual bool LoadInstanceImpl(InstanceType* base, const CRwNode* rw) const override
+	virtual bool LoadImpl(InstanceType* base, const CRwNode* rw) const override
 	{
 		auto& instance = *static_cast<TArrayType*>(base);
 		ASSERT(rw->IsArray());
@@ -41,11 +41,11 @@ protected:
 		{
 			auto rwItem = rwArray->GetItem(idx);
 			auto elemBase = &instance[idx];
-			elemType->LoadInstanceFromRwNode(elemBase, rwItem);
+			LoadInstanceFromRwNode(elemType, elemBase, rwItem);
 		}
 		return true;
 	}
-	virtual bool BuildInstanceNodeImpl(CNiflectInstanceNode* node) const override
+	virtual bool BuildInstanceNodeImpl(CInstanceNode* node) const override
 	{
 		auto& instance = *static_cast<TArrayType*>(node->GetBase());
 		auto elemType = this->GetElementType();

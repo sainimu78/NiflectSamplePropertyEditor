@@ -1,11 +1,11 @@
 #pragma once
-#include "Niflect/Default/Accessor.h"
+#include "Niflect/Component/RwTree/RwAccessor.h"
 #include "Niflect/NiflectType.h"
 
-class CAccessor : public Niflect::CAccessor
+class CAccessor : public Niflect::CRwAccessor
 {
 protected:
-	using CInstanceNode = Niflect::CInstanceNode;
+	using CRwInstanceNode = Niflect::CRwInstanceNode;
 	using CField = Niflect::CField;
 public:
 	virtual Niflect::CNiflectType* GetType() const = 0;

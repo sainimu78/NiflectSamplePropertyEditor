@@ -5,7 +5,7 @@
 #include "Niflect/Base/SharedPtr.h"
 #include "Property/PropertyNode.h"
 #include "Property/PropertyEditContext.h"
-#include "Niflect/Default/InstanceNode.h"
+#include "Niflect/Component/RwTree/RwInstanceNode.h"
 
 class QPropertyTree;
 
@@ -23,8 +23,8 @@ private:
 	Niflect::TSharedPtr<void*> m_editorDummy;
 	Niflect::TSharedPtr<void*> m_runtimeDummy;
 	CSharedPropertyNode m_propRoot;
-	Niflect::CInstanceNode m_editorInstRoot;
-	Niflect::CInstanceNode m_runtimeInstRoot;
+	Niflect::CRwInstanceNode m_editorInstRoot;
+	Niflect::CRwInstanceNode m_runtimeInstRoot;
 	const Niflect::CNiflectType* m_lastSelectedType;
 	CPropertyEditContext m_editCtx;
 };

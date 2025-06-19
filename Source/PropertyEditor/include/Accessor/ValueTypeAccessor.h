@@ -9,14 +9,14 @@ template <typename TValue>
 class TValueTypeAccessor : public CAccessor
 {
 protected:
-	virtual bool SaveInstanceImpl(const InstanceType* base, CRwNode* rw) const override
+	virtual bool SaveImpl(const InstanceType* base, CRwNode* rw) const override
 	{
 		auto& instance = *static_cast<const TValue*>(base);
 		auto rwValue = rw->ToValue();
 		SetRwValueAs<TValue>(rwValue, instance);
 		return true;
 	}
-	virtual bool LoadInstanceImpl(InstanceType* base, const CRwNode* rw) const override
+	virtual bool LoadImpl(InstanceType* base, const CRwNode* rw) const override
 	{
 		auto& instance = *static_cast<TValue*>(base);
 		ASSERT(rw->IsValue());
@@ -37,8 +37,8 @@ NIF_T()
 class CVector3Accessor : public CAccessor
 {
 protected:
-	virtual bool SaveInstanceImpl(const InstanceType* base, CRwNode* rw) const override;
-	virtual bool LoadInstanceImpl(InstanceType* base, const CRwNode* rw) const override;
+	virtual bool SaveImpl(const InstanceType* base, CRwNode* rw) const override;
+	virtual bool LoadImpl(InstanceType* base, const CRwNode* rw) const override;
 
 public:
 	virtual Niflect::CNiflectType* GetType() const override { return Niflect::StaticGetType<CVector3Accessor>(); }

@@ -11,36 +11,42 @@ public:
 	virtual Niflect::CNiflectType* GetType() const override { return Niflect::StaticGetType<CCompoundAccessor>(); }
 
 protected:
-	virtual bool SaveInstanceImpl(const InstanceType* base, CRwNode* rw) const override
+	virtual bool SaveImpl(const InstanceType* base, CRwNode* rw) const override
 	{
 		for (auto& it : this->GetOwnerType()->GetFields())
 		{
-			ASSERT(!it.GetName().empty());
+			NIFLECT_ASSERT(!it.GetName().empty());
 			auto rwField = CreateRwNode();
-			if (it.TypeSaveInstanceToRwNode(base, rwField.Get()))
+			if (SaveInstanceToRwNode(it.GetType(), it.GetAddr(base), rwField.Get()))
 				AddExistingRwNode(rw, it.GetName(), rwField);
 		}
 		return true;
 	}
-	virtual bool LoadInstanceImpl(InstanceType* base, const CRwNode* rw) const override
+	virtual bool LoadImpl(InstanceType* base, const CRwNode* rw) const override
 	{
 		for (auto& it : this->GetOwnerType()->GetFields())
 		{
-			ASSERT(!it.GetName().empty());
-			auto rwChild = FindRwNode(rw, it.GetName());
-			it.TypeLoadInstanceFromRwNode(base, rwChild);
+			NIFLECT_ASSERT(!it.GetName().empty());
+			if (auto rwField = FindRwNode(rw, it.GetName()))
+				LoadInstanceFromRwNode(it.GetType(), it.GetAddr(base), rwField);
 		}
 		return true;
 	}
-	virtual bool BuildInstanceNodeImpl(CNiflectInstanceNode* node) const override
+	virtual bool BuildInstanceNodeImpl(CInstanceNode* node) const override
 	{
 		for (auto& it : this->GetOwnerType()->GetFields())
 		{
-			ASSERT(!it.GetName().empty());
+			NIFLECT_ASSERT(!it.GetName().empty());
 			auto fieldNode = Niflect::CreateInstanceNode();
-			if (it.TypeBuildInstanceNode(node, fieldNode.Get()))
+			if (this->FieldBuildInstanceNode(it, node, fieldNode.Get()))
 				node->AddNode(fieldNode);
 		}
 		return true;
+	}
+
+private:
+	bool FieldBuildInstanceNode(CField& field, CInstanceNode* parent, CInstanceNode* node) const
+	{
+		return node->InitAndBuild(field.GetType(), field.GetAddr(parent->GetBase()), field.GetName(), parent);
 	}
 };

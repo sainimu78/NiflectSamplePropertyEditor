@@ -5,6 +5,7 @@
 #include "Niflect/Serialization/JsonFormat.h"
 #include "Niflect/Util/FileStreamUtil.h"
 #include "Accessor.h"
+#include "Niflect/Default/SharedInstance.h"
 
 #include "Accessor/ValueTypeAccessor.h"
 #include "Accessor/CompoundAccessor.h"
@@ -62,14 +63,14 @@ static void BuildPropertyFromRwNodeRecurs(CPropertyEditContext* editCtx, Niflect
 	}
 	else if (rw->IsArray())
 	{
-		auto elemType = ownerType->GetAccessor()->GetElementType();
+		auto elemType = GetAccessor(ownerType)->GetElementType();
 		ASSERT(elemType == NULL || rw->IsArray());
 		auto rwArray = rw->GetArray();
 		auto& propType = g_mapAcsToPropType.at(GetAccessorType(elemType));
 		prop->InitForContainer(propType);
 		for (uint32 idx = 0; idx < rwArray->GetItemsCount(); ++idx)
 		{
-			auto elemProp = Niflect::NiflectTypeMakeShared<CPropertyNode>(propType);
+			auto elemProp = Niflect::MakeSharedInstance<CPropertyNode>(propType);
 			BuildPropertyFromRwNodeRecurs(editCtx, elemType, rwArray->GetItem(idx), std::to_string(idx).c_str(), prop, elemProp.Get());
 			prop->AddNode(elemProp);
 		}
@@ -77,7 +78,7 @@ static void BuildPropertyFromRwNodeRecurs(CPropertyEditContext* editCtx, Niflect
 	else
 	{
 		Niflect::TArray<Niflect::CField> vecField;
-		for (auto& it0 : ownerType->GetTypeLayout().m_vecSubobject)
+		for (auto& it0 : ownerType->GetTypeLayout())
 		{
 			for (auto& it1 : it0->GetFields())
 				vecField.push_back(it1);
@@ -88,7 +89,7 @@ static void BuildPropertyFromRwNodeRecurs(CPropertyEditContext* editCtx, Niflect
 			auto& field = vecField[idx];
 			auto fieldType = field.GetType();
 			auto& propType = g_mapAcsToPropType.at(GetAccessorType(fieldType));
-			auto fieldProp = Niflect::NiflectTypeMakeShared<CPropertyNode>(propType);
+			auto fieldProp = Niflect::MakeSharedInstance<CPropertyNode>(propType);
 			BuildPropertyFromRwNodeRecurs(editCtx, fieldType, rw->GetNode(idx), field.GetName(), prop, fieldProp.Get());
 			prop->AddNode(fieldProp);
 		}
@@ -97,7 +98,7 @@ static void BuildPropertyFromRwNodeRecurs(CPropertyEditContext* editCtx, Niflect
 static CSharedPropertyNode BuildPropertyFromRwNode(CPropertyEditContext* editCtx, Niflect::CNiflectType* ownerType, const CRwNode* rw)
 {
 	auto& propType = g_mapAcsToPropType.at(GetAccessorType(ownerType));
-	auto prop = Niflect::NiflectTypeMakeShared<CPropertyNode>(propType);
+	auto prop = Niflect::MakeSharedInstance<CPropertyNode>(propType);
 	BuildPropertyFromRwNodeRecurs(editCtx, ownerType, rw, "", NULL, prop.Get());
 	return prop;
 }
@@ -163,8 +164,8 @@ QExampleWindow::QExampleWindow(QWidget* parentWidget)
 			auto& type = m_vecType[m_cobCollection->currentIndex()];
 			CRwNode rwInitialRuntimeData;
 			{
-				m_runtimeDummy = Niflect::NiflectTypeMakeShared<void*>(type);
-				type->SaveInstanceToRwNode(m_runtimeDummy.Get(), &rwInitialRuntimeData);
+				m_runtimeDummy = Niflect::MakeSharedInstance<void*>(type);
+				SaveInstanceToRwNode(type, m_runtimeDummy.Get(), &rwInitialRuntimeData);
 				m_runtimeInstRoot.Clear();
 				m_runtimeInstRoot.InitAndBuild(type, m_runtimeDummy.Get());
 			}
@@ -194,7 +195,7 @@ QExampleWindow::QExampleWindow(QWidget* parentWidget)
 			Niflect::TArray<Niflect::CString> vecPath;
 			CRwNode rw;
 			{
-				Niflect::BuildNamePathForTypeHasGetNameGetParent(prop, vecPath);
+				Niflect::BuildInstanceNodeNamePath(prop, vecPath);
 				SavePropertyToRwNode(prop, &rw);
 			}
 			{
@@ -208,7 +209,7 @@ QExampleWindow::QExampleWindow(QWidget* parentWidget)
 			}
 			{
 				CRwNode rw;
-				m_runtimeInstRoot.GetType()->SaveInstanceToRwNode(m_runtimeDummy.Get(), &rw);
+				SaveInstanceToRwNode(m_runtimeInstRoot.GetType(), m_runtimeDummy.Get(), &rw);
 				std::ofstream ofs;
 				if (NiflectUtil::OpenFileStream(ofs, "a.json"))
 					CJsonFormat::Write(&rw, ofs);

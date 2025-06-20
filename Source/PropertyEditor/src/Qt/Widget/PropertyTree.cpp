@@ -173,9 +173,13 @@ void QPropertyTree::UpdateResetter(CPropertyUiNode* uiNode) const
 			par = par->m_parent;
 		}
 	}
-	else if (par != NULL)
+	else
 	{
-		par->m_uiNode->m_row->SetEnabledResettter(enabled);
+		while (par != NULL)
+		{
+			this->UpdateResetterRecurs(par->m_uiNode);
+			par = par->m_parent;
+		}
 	}
 }
 void QPropertyTree::UpdateRowsExpansion(CPropertyUiNode* uiNode) const

@@ -23,8 +23,8 @@ private:
 	Niflect::TSharedPtr<void*> m_editorDummy;
 	Niflect::TSharedPtr<void*> m_runtimeDummy;
 	CSharedPropertyNode m_propRoot;
-	Niflect::CRwInstanceNode m_editorInstRoot;
-	Niflect::CRwInstanceNode m_runtimeInstRoot;
+	CRwInstanceNode m_editorInstRoot;
+	CRwInstanceNode m_runtimeInstRoot;
 	const Niflect::CNiflectType* m_lastSelectedType;
 	CPropertyEditContext m_editCtx;
 };

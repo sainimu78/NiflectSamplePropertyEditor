@@ -2,8 +2,6 @@
 #include "Accessor.h"
 #include "Accessor/CompoundAccessor_gen.h"
 
-using namespace RwTree;
-
 NIF_T()
 class CCompoundAccessor : public CAccessor
 {
@@ -37,7 +35,7 @@ protected:
 		for (auto& it : this->GetOwnerType()->GetFields())
 		{
 			NIFLECT_ASSERT(!it.GetName().empty());
-			auto fieldNode = Niflect::CreateInstanceNode();
+			auto fieldNode = CreateRwInstanceNode();
 			if (this->FieldBuildInstanceNode(it, node, fieldNode.Get()))
 				node->AddNode(fieldNode);
 		}

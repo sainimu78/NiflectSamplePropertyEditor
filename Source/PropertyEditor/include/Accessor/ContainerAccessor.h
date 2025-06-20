@@ -2,8 +2,6 @@
 #include "Accessor.h"
 #include "Accessor/ContainerAccessor_gen.h"
 
-using namespace RwTree;
-
 NIF_T()
 class CArrayAccessor : public CAccessor
 {
@@ -52,7 +50,7 @@ protected:
 		uint32 idx = 0;
 		for (auto& it : instance)
 		{
-			auto elemNode = Niflect::CreateInstanceNode();
+			auto elemNode = CreateRwInstanceNode();
 			auto elemBase = &it;
 			if (elemNode->InitAndBuild(elemType, elemBase, std::to_string(idx++).c_str(), node))
 				node->AddNode(elemNode);

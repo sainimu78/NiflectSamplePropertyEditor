@@ -2,10 +2,11 @@
 #include "Niflect/Component/RwTree/RwAccessor.h"
 #include "Niflect/NiflectType.h"
 
-class CAccessor : public Niflect::CRwAccessor
+using namespace RwTree;
+
+class CAccessor : public CRwAccessor
 {
 protected:
-	using CRwInstanceNode = Niflect::CRwInstanceNode;
 	using CField = Niflect::CField;
 public:
 	virtual Niflect::CNiflectType* GetType() const = 0;

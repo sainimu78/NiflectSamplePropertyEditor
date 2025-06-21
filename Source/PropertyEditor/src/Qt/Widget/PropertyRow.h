@@ -23,6 +23,7 @@ public:
 	void InitResetter();
 
 public:
+	bool IsEnabledResetter() const;
 	void SetEnabledResettter(bool b);
 	void SetOnRowResetFunc(const OnRowResetFunc& Func)
 	{

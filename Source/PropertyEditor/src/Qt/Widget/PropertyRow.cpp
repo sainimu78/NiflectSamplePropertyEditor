@@ -116,6 +116,10 @@ void QPropertyRow::InitResetter()
 		});
 	m_toolLayout->addWidget(m_reset);
 }
+bool QPropertyRow::IsEnabledResetter() const
+{
+	return m_reset->isEnabled();
+}
 void QPropertyRow::SetEnabledResettter(bool b)
 {
 	m_reset->setEnabled(b);

@@ -177,7 +177,19 @@ void QPropertyTree::UpdateResetter(CPropertyUiNode* uiNode) const
 	{
 		while (par != NULL)
 		{
-			this->UpdateResetterRecurs(par->m_uiNode);
+			bool enabled = false;
+			for (auto& it : par->m_uiNode->m_vecNode)
+			{
+				if (it->m_row->IsEnabledResetter())
+				{
+					enabled = true;
+					break;
+				}
+			}
+			if (!enabled)
+				par->m_uiNode->m_row->SetEnabledResettter(enabled);
+			else
+				break;
 			par = par->m_parent;
 		}
 	}

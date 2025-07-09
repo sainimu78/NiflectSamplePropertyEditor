@@ -32,23 +32,6 @@ jobs:
         echo 检查是否更新 Submodules
         dir ThirdParty\CMakeProjectFramework
 
-    - name: Install VS2015 Build Tools
-      shell: powershell
-      run: |
-        # 下载官方安装器
-        $installerUrl = "https://download.microsoft.com/download/e/e/d/eedf18a8-4aed-4ce0-bebe-70a83094fc5a/BuildTools_Full.exe"
-        $installerPath = "$env:RUNNER_TEMP\BuildTools_Full.exe"
-        Invoke-WebRequest -Uri $installerUrl -OutFile $installerPath
-        
-        # 静默安装 v140 工具集
-        Start-Process $installerPath -ArgumentList '--quiet --norestart --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended' -Wait
-        
-        # 验证安装
-        $v140Path = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
-        if (-not (Test-Path $v140Path)) {
-          throw "VS2015 tools installation failed!"
-        }
-
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type

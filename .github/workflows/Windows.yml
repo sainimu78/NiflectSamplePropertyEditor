@@ -31,12 +31,19 @@ jobs:
       run: |
         echo 检查是否更新 Submodules
         dir ThirdParty\CMakeProjectFramework
-        
+
     - name: Install VS2015 Build Tools
       shell: powershell
       run: |
-        choco install visualstudio2015buildtools -y --no-progress
-        # 添加环境变量
+        # 下载官方安装器
+        $installerUrl = "https://download.microsoft.com/download/e/e/d/eedf18a8-4aed-4ce0-bebe-70a83094fc5a/BuildTools_Full.exe"
+        $installerPath = "$env:RUNNER_TEMP\BuildTools_Full.exe"
+        Invoke-WebRequest -Uri $installerUrl -OutFile $installerPath
+        
+        # 静默安装 v140 工具集
+        Start-Process $installerPath -ArgumentList '--quiet --norestart --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended' -Wait
+        
+        # 验证安装
         $v140Path = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
         if (-not (Test-Path $v140Path)) {
           throw "VS2015 tools installation failed!"

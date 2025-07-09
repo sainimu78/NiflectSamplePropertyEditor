@@ -43,6 +43,14 @@ target_include_directories(${ModuleName}
 	PUBLIC ${IncludePathsPublic}
 )
 
+if(MSVC)
+	# v140 以上 Tool set 此配置可避免 Qt 5.8 报错
+	target_compile_definitions(${ModuleName} PRIVATE
+		-D_MSC_VER=1909
+		-D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH
+		)
+endif()
+
 list(APPEND v_ListAccessorSettingHeaderFilePath ${ModuleSourcePath}/AccessorSetting.h)
 list(APPEND v_ListModuleHeaderFilePath ${ModuleHeaders})
 set(v_EnabledLoadTimeModuleRegistrar TRUE)

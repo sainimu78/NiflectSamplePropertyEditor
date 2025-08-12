@@ -1,5 +1,5 @@
 #include "ExampleStructure.h"
-#include "Niflect/Util/StringUtil.h"
+#include "Niflect/Component/Util/StringUtil.h"
 
 void SaveCVector3ToRwNode(const CVector3& vec, CRwNode* rw)
 {

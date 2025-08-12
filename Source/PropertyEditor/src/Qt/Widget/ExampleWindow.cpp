@@ -5,7 +5,7 @@
 #include "Niflect/Component/RwTree/Serialization/JsonFormat.h"
 #include "Niflect/Util/FileStreamUtil.h"
 #include "Accessor.h"
-#include "Niflect/Component/SharedInstance.h"
+#include "Niflect/Component/NTL/Default/SharedInstance.h"
 #include "Niflect/Util/DebugUtil.h"
 
 #include "Accessor/ValueTypeAccessor.h"

@@ -100,17 +100,11 @@ uint32 CArrayProperty::GetElementsCount() const
 void CArrayProperty::Resize(uint32 cnt)
 {
 	int32 diff = this->GetElementsCount() - cnt;
-	while (diff > 0)
-	{
+	while (diff-- > 0)
 		this->InternalDeleteElement(this->GetElementsCount() - 1);
-		diff--;
-	}
 	diff = cnt - this->GetElementsCount();
-	while (diff > 0)
-	{
+	while (diff-- > 0)
 		this->InternalInsertElement(this->GetElementsCount());
-		diff--;
-	}
 	ASSERT(this->GetElementsCount() == cnt);
 	this->UpdateElementsName();
 }
